@@ -1,0 +1,8 @@
+# Vagrant local state and virtual machine disks
+.vagrant/
+
+# Cluster-specific K3s join token exported by the controller
+.k3s-node-token
+
+# macOS metadata
+.DS_Store
