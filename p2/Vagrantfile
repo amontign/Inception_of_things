@@ -1,0 +1,28 @@
+k3s_server_ip = ENV.fetch("K3S_SERVER_IP", "192.168.56.110")
+k3s_channel = ENV.fetch("K3S_CHANNEL", "stable")
+scripts_dir = File.join(__dir__, "scripts")
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/debian-12"
+
+  config.vm.synced_folder ".", "/vagrant_shared"
+
+  config.vm.define "amontignS" do |server|
+    server.vm.hostname = "amontignS"
+    server.vm.network "private_network", ip: k3s_server_ip, auto_config: false
+
+    server.vm.provider "vmware_desktop" do |vmware|
+      vmware.cpus = 2
+      vmware.memory = 2048
+      vmware.gui = false
+    end
+
+    server.vm.provision "shell",
+      path: File.join(scripts_dir, "server.sh"),
+      privileged: true,
+      env: {
+        "K3S_SERVER_IP" => k3s_server_ip,
+        "K3S_CHANNEL" => k3s_channel,
+      }
+  end
+end
