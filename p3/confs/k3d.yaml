@@ -1,0 +1,24 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: iot
+servers: 1
+agents: 0
+kubeAPI:
+  host: localhost
+  hostIP: 127.0.0.1
+  hostPort: "6550"
+ports:
+  - port: 127.0.0.1:8888:80
+    nodeFilters:
+      - loadbalancer
+options:
+  k3d:
+    wait: true
+    timeout: 180s
+    disableLoadbalancer: false
+    disableImageVolume: false
+    disableRollback: false
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true

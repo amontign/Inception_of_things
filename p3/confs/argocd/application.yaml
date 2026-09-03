@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wil-playground
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/amontign/Inception_of_things.git
+    targetRevision: main
+    path: p3/confs/app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  revisionHistoryLimit: 5
